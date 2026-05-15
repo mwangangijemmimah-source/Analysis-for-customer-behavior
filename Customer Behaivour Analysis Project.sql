@@ -1,4 +1,4 @@
- the top 10% customers by a lifetime value and what segment do they belong to?
+--- the top 10% customers by a lifetime value and what segment do they belong to?
 WITH customer_ltv AS (
     SELECT 
         c.customer_id,
@@ -33,7 +33,7 @@ FROM percentiles
 WHERE percentile_group = 1
 ORDER BY lifetime_value DESC;
 
-2.PRODUCT Frequently bought together in the same order
+----.PRODUCT Frequently bought together in the same order
 SELECT 
     p1.product_name AS product_1,
     p2.product_name AS product_2,
@@ -48,7 +48,7 @@ GROUP BY p1.product_name, p2.product_name
 ORDER BY times_bought_together DESC
 LIMIT 20;
 
-3. CUSTOMERS HAVEN'T Ordered in the las 90 days  but were previously active
+----CUSTOMERS HAVEN'T Ordered in the las 90 days  but were previously active
 
 WITH last_order AS (
     SELECT 
@@ -83,7 +83,7 @@ FROM last_order l, max_date m
 WHERE l.last_order_date < m.latest_date - INTERVAL '90 days'
 ORDER BY l.last_order_date DESC;
 
-4."Referal" VS "Paid search customers" high Retention
+---"Referal" VS "Paid search customers" high Retention
 
 SELECT 
     c.acquisition_channel,
@@ -98,7 +98,7 @@ WHERE c.acquisition_channel IN ('Referral', 'Paid Search')
 GROUP BY c.acquisition_channel
 ORDER BY retention_rate_pct DESC;
 
-5. Device Type with Highest conversion rate
+--- Device Type with Highest conversion rate
 
 SELECT 
     device,
@@ -109,7 +109,7 @@ FROM sessions
 GROUP BY device
 ORDER BY conversion_rate_pct DESC;
 
-6. Longer sessions durations- Highest Coversion rate
+--- Longer sessions durations- Highest Coversion rate
 
 SELECT 
     CASE 
@@ -127,7 +127,7 @@ FROM sessions
 GROUP BY duration_bucket
 ORDER BY duration_bucket;
 
-7.Month-Over- Month revenue growth which months has highest spikes or drops
+--- Month-Over- Month revenue growth which months has highest spikes or drops
 
 WITH monthly_revenue AS (
     SELECT 
@@ -163,8 +163,7 @@ SELECT
     END AS trend
 FROM revenue_growth
 ORDER BY order_month;
-
-8. Acquisition channell delivering highest revenue per customer over their lifetime
+--- Acquisition channell delivering highest revenue per customer over their lifetime
 
 SELECT 
     c.acquisition_channel,
@@ -180,7 +179,7 @@ WHERE o.status != 'Cancelled'
 GROUP BY c.acquisition_channel
 ORDER BY revenue_per_customer DESC;
 
-9. RFM Score for every customer and rank them
+--- RFM Score for every customer and rank them
 
 WITH rfm_base AS (
     SELECT 
@@ -247,7 +246,7 @@ SELECT
 FROM rfm_final
 ORDER BY customer_rank;
 
-10.Gross Margin per product category
+--- Gross Margin per product category
 
 SELECT 
     p.category,
